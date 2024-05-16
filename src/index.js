@@ -28,6 +28,10 @@ app.get("/", (req, res) => {
 app.get("/chat/:coin", async (req, res) => {
   const coin = req.params.coin;
   const chats = await Chat.find({ coin });
+
+  // order by timestamp desc
+  chats.sort((a, b) => b.timestamp - a.timestamp);
+
   res.json(chats);
 });
 
