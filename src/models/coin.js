@@ -20,4 +20,4 @@ const coinSchema = new mongoose.Schema({
   },
 });
 
-const Coin = mongoose.model("Coin", coinSchema);
+module.exports = mongoose.model("Coin", coinSchema);

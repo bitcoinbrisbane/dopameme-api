@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 
 const chatSchema = new mongoose.Schema({
-  name: {
+  user: {
     type: String,
     required: true,
   },
@@ -14,10 +14,10 @@ const chatSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  timestamp: {
-    type: Date,
-    default: Date.now,
-  }
+  // timestamp: {
+  //   type: Date,
+  //   default: Date.now,
+  // }
 });
 
-const Chat = mongoose.model("Chat", chatSchema);
+module.exports = mongoose.model("Chat", chatSchema);
