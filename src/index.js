@@ -1,5 +1,5 @@
 const express = require("express");
-// const swagger = require("./swagger");
+const swagger = require("./swagger");
 const Chat = require("./models/chat");
 const Coins = require("./models/coin");
 const Profile = require("./models/profile");
@@ -16,10 +16,20 @@ connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json());
-// swagger(app);
+
+swagger(app);
 
 const check_signature = process.env.CHECK_SIGNATURE || false;
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Health check
+ *     responses:
+ *       200:
+ *         description: A successful response
+ */
 app.get("/", (req, res) => {
   res.send("dopeameme!");
 });
@@ -55,6 +65,21 @@ app.get("/coin/:address", async (req, res) => {
   const address = req.params.address;
   const coins = await Coins.find({ address });
   res.json(coins);
+});
+
+app.get("/coin/hodlers/:address", async (req, res) => {
+  const wallets = [
+    {
+      address: "0x1234",
+      amount: 100,
+    },
+    {
+      address: "0x5678",
+      amount: 200,
+    },
+  ];
+
+  return res.json(wallets);
 });
 
 app.get("/profile/:address", async (req, res) => {

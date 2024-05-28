@@ -1,21 +1,23 @@
+// swagger.js
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
+// Basic Swagger definitions
 const options = {
-  swaggerDefinition: {
-    restapi: "3.0.0",
+  definition: {
+    openapi: "3.0.0",
     info: {
-      title: "My API",
+      title: "Your API Title",
       version: "1.0.0",
-      description: "My REST API",
+      description: "A description of your API",
     },
     servers: [
       {
-        url: "http://localhost:3000",
+        url: "http://localhost:3000", // Your server URL
       },
     ],
   },
-  apis: ["**/*.js"],
+  apis: ["./routes/*.js"], // Path to the API docs
 };
 
 const specs = swaggerJsdoc(options);
