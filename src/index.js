@@ -17,9 +17,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const chat = require("./routes/chat");
+
 swagger(app);
 
 const check_signature = process.env.CHECK_SIGNATURE || false;
+
+// Routes
+app.use("/chat", chat);
 
 /**
  * @swagger
@@ -34,40 +40,19 @@ app.get("/", (req, res) => {
   res.send("dopeameme!");
 });
 
-// get chat for a specific coin
-app.get("/chat/:coin", async (req, res) => {
-  const coin = req.params.coin;
-  const chats = await Chat.find({ coin });
-
-  // order by timestamp desc
-  chats.sort((a, b) => b.timestamp - a.timestamp);
-
-  res.json(chats);
-});
-
-// create a new chat for a specific coin
-app.post("/chat/:coin", async (req, res) => {
-  // check signature
-
-  const coin = req.params.coin;
-  const { message, user } = req.body;
-  const chat = await new Chat({ user, message, coin });
-  await chat.save();
-  res.json(chat);
-});
-
 app.get("/coins/", async (req, res) => {
   const coins = await Coins.find();
   res.json(coins);
 });
 
-app.get("/coin/:address", async (req, res) => {
+app.get("/coins/:address", async (req, res) => {
   const address = req.params.address;
-  const coins = await Coins.find({ address });
-  res.json(coins);
+  const coin = await Coins.findOne({ address });
+
+  res.json(coin);
 });
 
-app.get("/coin/hodlers/:address", async (req, res) => {
+app.get("/coins/hodlers/:address", async (req, res) => {
   const wallets = [
     {
       address: "0x1234",
@@ -89,21 +74,13 @@ app.get("/profile/:address", async (req, res) => {
 });
 
 app.post("/profile/", async (req, res) => {
-  const { name, address } = req.body;
+  const { username, address, bio } = req.body;
 
-  const profile = Profile.create({ address, name, bio });
+  const profile = Profile.create({ address, username, bio });
   // await profile.save();
 
   res.status(201).json(profile);
 });
-
-// app.put("/profile/:address", async (req, res) => {
-//   const address = req.params.address;
-//   const { name, bio } = req.body;
-//   const profile = await Profile
-//     .findOneAndUpdate({ address }, { name, bio }, { upsert: true, new: true });
-//   res.json(profile);
-// });
 
 const PORT = process.env.PORT || 3000;
 mongoose.connection.once("open", () => {
