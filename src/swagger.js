@@ -7,9 +7,9 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Your API Title",
+      title: "Dopameme API",
       version: "1.0.0",
-      description: "A description of your API",
+      description: "Documentation for Dopameme API",
     },
     servers: [
       {

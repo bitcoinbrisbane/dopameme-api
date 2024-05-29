@@ -4,12 +4,40 @@ const router = express.Router();
 
 const Coins = require("../models/coin");
 
+/**
+ * @swagger
+ * /coins/:
+ *   get:
+ *     description:  Get all coins
+ */
 router.get("/", async (req, res) => {
   const coins = await Coins.find();
   res.json(coins);
 });
 
-router.get("/next/", async (req, res) => {
+/**
+ * @swagger
+ * /coins/next/{address}:
+ *   get:
+ *     description:  Get the next suggested coin for that user
+ */
+router.get("/next/:address", async (req, res) => {
+  const coins = await Coins.find();
+
+  // get a random coin
+  const randomIndex = Math.floor(Math.random() * coins.length);
+  const randomCoin = coins[randomIndex];
+
+  res.json(randomCoin);
+});
+
+/**
+ * @swagger
+ * /coins/next/{address}:
+ *   post:
+ *     description:  Set if the user likes the coin
+ */
+router.post("/next/:address", async (req, res) => {
   const coins = await Coins.find();
 
   // get a random coin

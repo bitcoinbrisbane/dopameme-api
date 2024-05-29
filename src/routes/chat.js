@@ -4,7 +4,7 @@ const Chat = require("../models/chat");
 
 /**
  * @swagger
- * /coins/{coin}:
+ * /chat/{coin}:
  *   get:
  *     description:  Get all chats per coin
  */
