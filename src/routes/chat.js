@@ -4,20 +4,9 @@ const Chat = require("../models/chat");
 
 /**
  * @swagger
- * /chat/{coin}:
- *  get:
- *   summary: Get chat for a specific coin
- *  parameters:
- *   - in: path
- *    name: coin
- *   required: true
- *  schema:
- *   type: string
- * responses:
- * 200:
- * description: A successful response
- * content:
- * application/json:
+ * /coins/{coin}:
+ *   get:
+ *     description:  Get all chats per coin
  */
 router.get("/:coin", async (req, res) => {
   const coin = req.params.coin;
